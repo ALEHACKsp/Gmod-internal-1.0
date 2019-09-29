@@ -9,5 +9,6 @@ void CCreateInterface::Initialize()
 	auto engineFactory = GetModuleFactory(GetModuleHandle("engine.dll"));
 
 	CInterfaces::pEntityList = GetInterface<IClientEntityList*>(clientFactory, "VClientEntityList003");
+
 }
 

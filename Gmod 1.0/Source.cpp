@@ -14,13 +14,17 @@ int main()
 	CCreateInterface::GetInstance().Initialize();
 
 	int health;
-	while (true) {
+
+	while (true) 
+	{
 		for (int i = 0; i < CInterfaces::pEntityList->GetHighestEntityIndex(); i++)
 		{
 			IClientEntity* pEntity = (IClientEntity*)CInterfaces::pEntityList->GetClientEntity(i);
 
 			if (pEntity == nullptr)
 				continue;
+
+			int PoopID = pEntity->GetClientClass()->m_ClassID;
 
 
 			health = *(int*)(((uintptr_t)pEntity + 0x90));
@@ -29,6 +33,7 @@ int main()
 
 			std::cout << "Current Entity: " << i << "\n\n";
 			std::cout << "Current Entity Health: " << health << "\n\n";
+			std::cout << "ClassID: " << PoopID << "\n\n";
 
 			std::cout << "=================================\n";
 

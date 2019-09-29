@@ -123,10 +123,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Aimbot.h" />
     <ClInclude Include="Interface.h" />
     <ClInclude Include="SDK Stuff.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Aimbot.cpp" />
     <ClCompile Include="Interface.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
