@@ -125,11 +125,14 @@
   <ItemGroup>
     <ClInclude Include="Aimbot.h" />
     <ClInclude Include="Interface.h" />
+    <ClInclude Include="InterfaceVT.h" />
+    <ClInclude Include="Math.h" />
     <ClInclude Include="SDK Stuff.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Aimbot.cpp" />
     <ClCompile Include="Interface.cpp" />
+    <ClCompile Include="Math.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

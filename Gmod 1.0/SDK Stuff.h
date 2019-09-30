@@ -1,10 +1,98 @@
 #pragma once
 #include <Windows.h>
-
+#include "InterfaceVT.h"
 class IClientNetworkable;
 
 
 typedef IClientNetworkable* (*CreateClientClassFn)(int entnum, int serialNum);
+
+
+#pragma once
+
+class IEngineClient
+{
+public:
+	void GetScreenSize(int& width, int& height)
+	{
+		typedef void(__thiscall * OriginalFn)(PVOID, int&, int&);
+		return getvfunc<OriginalFn>(this, 5)(this, width, height);
+	}
+	//bool GetPlayerInfo(int ent_num, player_info *pinfo)
+	//{
+	//	typedef bool(__thiscall* OriginalFn)(PVOID, int, player_info *);
+	//	return getvfunc<OriginalFn>(this, 8)(this, ent_num, pinfo);
+	//}
+	bool Con_IsVisible(void)
+	{
+		typedef bool(__thiscall * OriginalFn)(PVOID);
+		return getvfunc<OriginalFn>(this, 11)(this);
+	}
+	int GetLocalPlayer(void)
+	{
+		typedef int(__thiscall * OriginalFn)(PVOID);
+		return getvfunc<OriginalFn>(this, 12)(this);
+	}
+	float GetLastTimeStamp(void)
+	{
+		typedef float(__thiscall * OriginalFn)(PVOID);
+		return getvfunc<OriginalFn>(this, 14)(this);
+	}
+	int GetMaxClients(void)
+	{
+		typedef int(__thiscall * OriginalFn)(PVOID);
+		return getvfunc<OriginalFn>(this, 20)(this);
+	}
+	bool IsInGame(void)
+	{
+		typedef bool(__thiscall * OriginalFn)(PVOID);
+		return getvfunc<OriginalFn>(this, 26)(this);
+	}
+	bool IsConnected(void)
+	{
+		typedef bool(__thiscall * OriginalFn)(PVOID);
+		return getvfunc<OriginalFn>(this, 27)(this);
+	}
+	bool IsDrawingLoadingImage(void)
+	{
+		typedef bool(__thiscall * OriginalFn)(PVOID);
+		return getvfunc<OriginalFn>(this, 28)(this);
+	}
+	void Con_NPrintf(int idx, char const* fmt, ...) // Numbered line printf #doesntwork
+	{
+		typedef void(__thiscall * OriginalFn)(PVOID, int idx, char const* fmt);
+		return getvfunc<OriginalFn>(this, 30)(this, idx, fmt);
+	}
+	const char* GetLevelName(void)
+	{
+		typedef const char* (__thiscall * OriginalFn)(PVOID);
+		return getvfunc<OriginalFn>(this, 52)(this);
+	}
+	const char* GetLevelNameShort(void)
+	{
+		typedef const char* (__thiscall * OriginalFn)(PVOID);
+		return getvfunc<OriginalFn>(this, 53)(this);
+	}
+	DWORD* GetNetChannelInfo(void) // Causes a crash for some reason.
+	{
+		typedef DWORD* (__thiscall * OriginalFn)(PVOID);
+		return getvfunc<OriginalFn>(this, 75)(this);
+	}
+	bool IsTakingScreenshot(void)
+	{
+		typedef bool(__thiscall * OriginalFn)(PVOID);
+		return getvfunc<OriginalFn>(this, 89)(this);
+	}
+	void ExecuteClientCmd(const char* szCmdString)
+	{
+		typedef void(__thiscall * OriginalFn)(PVOID, const char*);
+		return getvfunc<OriginalFn>(this, 107)(this, szCmdString);
+	}
+	void ClientCmd_Unrestricted(const char* chCommandString)
+	{
+		typedef void(__thiscall * OriginalFn)(PVOID, const char*);
+		return getvfunc<OriginalFn>(this, 113)(this, chCommandString);
+	}
+};
 
 
 class IClientThinkable

@@ -31,4 +31,5 @@ public:
 struct CInterfaces
 {
 	static IClientEntityList* pEntityList;
+	static IEngineClient* pEngine;
 };

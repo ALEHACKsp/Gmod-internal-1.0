@@ -30,6 +30,12 @@
     <ClInclude Include="Aimbot.h">
       <Filter>Header Files\Features</Filter>
     </ClInclude>
+    <ClInclude Include="InterfaceVT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Math.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Interface.cpp">
@@ -40,6 +46,9 @@
     </ClCompile>
     <ClCompile Include="Aimbot.cpp">
       <Filter>Source Files\Features</Filter>
+    </ClCompile>
+    <ClCompile Include="Math.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

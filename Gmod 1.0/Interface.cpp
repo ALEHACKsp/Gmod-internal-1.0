@@ -2,6 +2,7 @@
 
 
 IClientEntityList* CInterfaces::pEntityList;
+IEngineClient* CInterfaces::pEngine;
 
 void CCreateInterface::Initialize()
 {
@@ -9,6 +10,7 @@ void CCreateInterface::Initialize()
 	auto engineFactory = GetModuleFactory(GetModuleHandle("engine.dll"));
 
 	CInterfaces::pEntityList = GetInterface<IClientEntityList*>(clientFactory, "VClientEntityList003");
+	CInterfaces::pEngine = GetInterface<IEngineClient*>(engineFactory, "VEngineClient013");
 
 }
 
