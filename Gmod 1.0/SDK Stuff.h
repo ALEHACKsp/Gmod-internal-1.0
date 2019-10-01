@@ -57,7 +57,7 @@ public:
 		typedef bool(__thiscall * OriginalFn)(PVOID);
 		return getvfunc<OriginalFn>(this, 28)(this);
 	}
-	void Con_NPrintf(int idx, char const* fmt, ...) // Numbered line printf #doesntwork
+	void Con_NPrintf(int idx, char const* fmt, ...) 
 	{
 		typedef void(__thiscall * OriginalFn)(PVOID, int idx, char const* fmt);
 		return getvfunc<OriginalFn>(this, 30)(this, idx, fmt);
@@ -72,7 +72,7 @@ public:
 		typedef const char* (__thiscall * OriginalFn)(PVOID);
 		return getvfunc<OriginalFn>(this, 53)(this);
 	}
-	DWORD* GetNetChannelInfo(void) // Causes a crash for some reason.
+	DWORD* GetNetChannelInfo(void) 
 	{
 		typedef DWORD* (__thiscall * OriginalFn)(PVOID);
 		return getvfunc<OriginalFn>(this, 75)(this);

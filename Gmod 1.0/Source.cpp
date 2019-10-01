@@ -16,39 +16,13 @@ int main()
 	CCreateInterface::GetInstance().Initialize();
 	while (true) 
 	{
-		/*for (int i = 0; i < CInterfaces::pEntityList->GetHighestEntityIndex(); i++)
+		
+
+		while (GetAsyncKeyState(VK_XBUTTON1))
 		{
-			IClientEntity* pEntity = (IClientEntity*)CInterfaces::pEntityList->GetClientEntity(i);
-			IClientEntity* pLocalPlayer = (IClientEntity*)CInterfaces::pEntityList->GetClientEntity(CInterfaces::pEngine->GetLocalPlayer());
-			if (pEntity == nullptr)
-				continue;
+			oAim.StartAim();
 
-			if (pLocalPlayer == nullptr)
-				continue;
-
-			int PoopID = pEntity->GetClientClass()->m_ClassID;
-			poop = *(vec3*)(((uintptr_t)pLocalPlayer + 0x260));
-
-			health = *(int*)(((uintptr_t)pEntity + 0x90));
-
-			std::cout << "=================================\n";
-
-			std::cout << "Current Entity: " << i << "\n\n";
-			std::cout << "Current Entity Health: " << health << "\n\n";
-			std::cout << "ClassID: " << PoopID << "\n\n";
-
-			std::cout << "LocalPlayer X: " << poop.x << "\n\n";
-
-
-			std::cout << "=================================\n";
-
-			Sleep(1000);
-		}*/
-
-
-		oAim.StartAim();
-
-
+		}
 	}
 
 	return 0;

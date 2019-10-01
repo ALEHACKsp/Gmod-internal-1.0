@@ -1,5 +1,17 @@
 #include "Math.h"
 
+float Math::GetDistanceBetween(Vec3 LocalPlayerCoordinates, Vec3 EnemyPlayerCoordinates)
+{
+	double Distance = 0.0f;
+
+	Distance =
+		sqrt((pow((double)EnemyPlayerCoordinates.x - LocalPlayerCoordinates.x, 2) +
+			pow((double)EnemyPlayerCoordinates.y - LocalPlayerCoordinates.y, 2) +
+			pow((double)EnemyPlayerCoordinates.z - LocalPlayerCoordinates.z, 2)));
+
+	return (float)Distance;
+}
+
 Vec3 Math::CalcAngle(Vec3 LocalPlayerOrigin, Vec3 EnemyPlayerOrigin)
 {
 	Vec3 Difference;
