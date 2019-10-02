@@ -72,20 +72,19 @@ IClientEntity* aimbot::GetBestFOV()
 		if (!CheckIfValid(pEntity))
 			continue;
 
-		LocalPlayerOrigin = *(Vec3*)(((uintptr_t)pLocalPlayer + 0x260));
-		CurrentEntityOrigin = *(Vec3*)(((uintptr_t)pEntity + 0x260));
+		LocalPlayerOrigin = *(Vector*)(((uintptr_t)pLocalPlayer + 0x260));
+		CurrentEntityOrigin = *(Vector*)(((uintptr_t)pEntity + 0x260));
 
-		vecEnemyOrg.x = CurrentEntityOrigin.x;
-		vecEnemyOrg.y = CurrentEntityOrigin.y;
-		vecEnemyOrg.z = CurrentEntityOrigin.z;
 
-		AngleToAim = oMath.CalcAngle(LocalPlayerOrigin, vecEnemyOrg);
+		AngleToAim = oMath.CalcAngle(LocalPlayerOrigin, CurrentEntityOrigin);
 
 		YawDiff = (*Yaw - AngleToAim.y);
+		PitchDiff = (*Pitch - AngleToAim.x);
 
 		YawDiff = fabsf(YawDiff);
+		PitchDiff = fabsf(PitchDiff);
 
-		if (YawDiff > 10.0f)
+		if (YawDiff > 10.0f || PitchDiff > 10.0f)
 			continue;
 
 		DistanceTo = oMath.GetDistanceBetween(LocalPlayerOrigin, CurrentEntityOrigin);
@@ -113,7 +112,6 @@ void aimbot::GetEnemyBonePos(IClientEntity* Entity)
 	vecHead.x = Hitbox[0][3];
 	vecHead.y = Hitbox[1][3];
 	vecHead.z = Hitbox[2][3];
-
 
 }
 

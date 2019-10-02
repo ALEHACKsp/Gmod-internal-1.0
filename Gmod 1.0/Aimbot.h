@@ -11,15 +11,16 @@ public:
 	float DistanceTo;
 
 	float YawDiff;
+	float PitchDiff;
 	float RealDiff;
 	float MaxDiff = 9999999.0f;
 	
 	DWORD engine = (DWORD)GetModuleHandle("engine.dll");
 
-	Vec3 LocalPlayerOrigin;
-	Vec3 CurrentEntityOrigin;
-	Vec3 AngleToAim;
-	Vec3 EntBonePos;
+	Vector LocalPlayerOrigin;
+	Vector CurrentEntityOrigin;
+	Vector AngleToAim;
+	Vector EntBonePos;
 
 	Vector vecHead;
 	Vector vecEnemyOrg;
