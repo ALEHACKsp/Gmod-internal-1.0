@@ -12,8 +12,9 @@ float Math::GetDistanceBetween(Vec3 LocalPlayerCoordinates, Vec3 EnemyPlayerCoor
 	return (float)Distance;
 }
 
-Vec3 Math::CalcAngle(Vec3 LocalPlayerOrigin, Vec3 EnemyPlayerOrigin)
+Vec3 Math::CalcAngle(Vec3 LocalPlayerOrigin, Vector EnemyPlayerOrigin)
 {
+	LocalPlayerOrigin.z += 64.0f;
 	Vec3 Difference;
 	Difference.x = EnemyPlayerOrigin.x - LocalPlayerOrigin.x;
 	Difference.y = EnemyPlayerOrigin.y - LocalPlayerOrigin.y;

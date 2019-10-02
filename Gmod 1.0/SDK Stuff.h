@@ -1,17 +1,17 @@
 #pragma once
 #include <Windows.h>
 #include "InterfaceVT.h"
+#include "Matrix.h"
+
 class IClientNetworkable;
 
 
 typedef IClientNetworkable* (*CreateClientClassFn)(int entnum, int serialNum);
 
-
-#pragma once
-
 class IEngineClient
 {
 public:
+
 	void GetScreenSize(int& width, int& height)
 	{
 		typedef void(__thiscall * OriginalFn)(PVOID, int&, int&);
@@ -157,7 +157,7 @@ public:
 	virtual int				    GetFxBlend(void) = 0;
 	virtual void			    GetColorModulation(float* color) = 0;
 	virtual bool			    LODTest() = 0;
-	virtual bool			    SetupBones(void* pBoneToWorldOut, int nMaxBones, int boneMask, float currentTime) = 0;
+	virtual bool			    SetupBones(matrix3x4_t *pBoneToWorldOut, int nMaxBones, int boneMask, float currentTime) = 0;
 	virtual void			    SetupWeights(const void* pBoneToWorld, int nFlexWeightCount, float* pFlexWeights, float* pFlexDelayedWeights) = 0;
 	virtual void			    DoAnimationEvents(void) = 0;
 	virtual IPVSNotify* GetPVSNotifyInterface() = 0;

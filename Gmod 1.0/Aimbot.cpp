@@ -4,19 +4,21 @@
 
 void aimbot::StartAim()
 {
-	IClientEntity* pLocalPlayer = (IClientEntity*)CInterfaces::pEntityList->GetClientEntity(CInterfaces::pEngine->GetLocalPlayer());
-	IClientEntity* Entity = GetBestFOV();
-
-	if (Entity != nullptr)
+	while (GetAsyncKeyState(VK_XBUTTON2))
 	{
 
-		LocalPlayerOrigin = *(Vec3*)(((uintptr_t)pLocalPlayer + 0x260));
-		CurrentEntityOrigin = *(Vec3*)(((uintptr_t)Entity + 0x260));
+		IClientEntity* pLocalPlayer = (IClientEntity*)CInterfaces::pEntityList->GetClientEntity(CInterfaces::pEngine->GetLocalPlayer());
+		IClientEntity* Entity = GetBestFOV();
+		
 
-		AngleToAim = oMath.CalcAngle(LocalPlayerOrigin, CurrentEntityOrigin);
+		if (Entity != nullptr)
+		{
+			GetEnemyBonePos(Entity);
+			AngleToAim = oMath.CalcAngle(LocalPlayerOrigin, vecHead);
 
-		*Pitch = AngleToAim.x;
-		*Yaw = AngleToAim.y;
+			*Pitch = AngleToAim.x;
+			*Yaw = AngleToAim.y;
+		}
 	}
 }
 
@@ -73,7 +75,11 @@ IClientEntity* aimbot::GetBestFOV()
 		LocalPlayerOrigin = *(Vec3*)(((uintptr_t)pLocalPlayer + 0x260));
 		CurrentEntityOrigin = *(Vec3*)(((uintptr_t)pEntity + 0x260));
 
-		AngleToAim = oMath.CalcAngle(LocalPlayerOrigin, CurrentEntityOrigin);
+		vecEnemyOrg.x = CurrentEntityOrigin.x;
+		vecEnemyOrg.y = CurrentEntityOrigin.y;
+		vecEnemyOrg.z = CurrentEntityOrigin.z;
+
+		AngleToAim = oMath.CalcAngle(LocalPlayerOrigin, vecEnemyOrg);
 
 		YawDiff = (*Yaw - AngleToAim.y);
 
@@ -83,7 +89,6 @@ IClientEntity* aimbot::GetBestFOV()
 			continue;
 
 		DistanceTo = oMath.GetDistanceBetween(LocalPlayerOrigin, CurrentEntityOrigin);
-
 
 		RealDiff = sin((YawDiff * 3.14 / 180)) * DistanceTo;
 
@@ -99,6 +104,19 @@ IClientEntity* aimbot::GetBestFOV()
 	return BestEntity;
 }
 
+void aimbot::GetEnemyBonePos(IClientEntity* Entity)
+{
+	Entity->SetupBones(bonePos, 128, 256, 0.0f);
+
+	matrix3x4_t Hitbox = bonePos[7];
+
+	vecHead.x = Hitbox[0][3];
+	vecHead.y = Hitbox[1][3];
+	vecHead.z = Hitbox[2][3];
+
+
+}
+
 
 bool aimbot::CheckIfValid(IClientEntity* CurrentEntity)
 {
@@ -107,9 +125,10 @@ bool aimbot::CheckIfValid(IClientEntity* CurrentEntity)
 
 	if (CurrentEntity->IsDormant())
 		return false;
+
 	int health = *(int*)(((uintptr_t)CurrentEntity + 0x90));
 
-	if (health < 1)
+	if (!health)
 		return false;
 
 	if (CurrentEntity->GetClientClass()->m_ClassID != 69)

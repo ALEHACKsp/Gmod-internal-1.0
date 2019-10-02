@@ -16,13 +16,10 @@ int main()
 	CCreateInterface::GetInstance().Initialize();
 	while (true) 
 	{
-		
+		oAim.StartAim();
 
-		while (GetAsyncKeyState(VK_XBUTTON1))
-		{
-			oAim.StartAim();
 
-		}
+		Sleep(1);
 	}
 
 	return 0;

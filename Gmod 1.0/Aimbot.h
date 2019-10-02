@@ -1,7 +1,7 @@
 #pragma once
 #include "Interface.h"
 #include "Math.h"
-
+#include <iostream>
 
 
 class aimbot
@@ -19,6 +19,12 @@ public:
 	Vec3 LocalPlayerOrigin;
 	Vec3 CurrentEntityOrigin;
 	Vec3 AngleToAim;
+	Vec3 EntBonePos;
+
+	Vector vecHead;
+	Vector vecEnemyOrg;
+
+	matrix3x4_t bonePos[128];
 	
 	float* Pitch = (float*)(engine + 0x4E16E4);
 	float* Yaw = (float*)(engine + 0x4E16E8);
@@ -26,6 +32,7 @@ public:
 	void StartAim();
 	//IClientEntity* GetBestTarget();
 	IClientEntity* GetBestFOV();
+	void GetEnemyBonePos(IClientEntity* Entity);
 	bool CheckIfValid(IClientEntity* CurrentEntity);
 
 	
