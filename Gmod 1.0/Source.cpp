@@ -19,7 +19,8 @@ int main()
 		oAim.StartAim();
 
 
-		Sleep(1);
+		if (GetAsyncKeyState(VK_F6))
+			break;
 	}
 
 	return 0;

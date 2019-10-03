@@ -5,9 +5,8 @@ float Math::GetDistanceBetween(Vector LocalPlayerCoordinates, Vector EnemyPlayer
 	double Distance = 0.0f;
 
 	Distance =
-		sqrt((pow((double)EnemyPlayerCoordinates.x - LocalPlayerCoordinates.x, 2) +
-			pow((double)EnemyPlayerCoordinates.y - LocalPlayerCoordinates.y, 2) +
-			pow((double)EnemyPlayerCoordinates.z - LocalPlayerCoordinates.z, 2)));
+		sqrt(pow(EnemyPlayerCoordinates.x - LocalPlayerCoordinates.x, 2) + pow(EnemyPlayerCoordinates.y - LocalPlayerCoordinates.y, 2) + pow(EnemyPlayerCoordinates.z - LocalPlayerCoordinates.z, 2)
+		);
 
 	return (float)Distance;
 }
@@ -33,4 +32,14 @@ Vector Math::CalcAngle(Vector LocalPlayerOrigin, Vector EnemyPlayerOrigin)
 
 
 	return AngleToAim;
+}
+
+float Math::GetDistAngles(float* AngleYaw, float* AnglePitch, Vector AnglesToAim)
+{
+	double dist = 0.000;
+
+	dist = sqrt( pow( AnglesToAim.y - *AngleYaw, 2 ) + pow( AnglesToAim.x - *AnglePitch, 2 ) );
+
+
+	return (float)dist;
 }

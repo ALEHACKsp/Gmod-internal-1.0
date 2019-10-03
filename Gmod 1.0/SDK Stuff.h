@@ -232,8 +232,8 @@ public:
 	virtual void Function0();
 	virtual void Function1();
 	virtual void Function2();
-	virtual void* GetClientEntity(int i); //index of entity, returns ptr to entity base
-	virtual void* GetClientEntityFromHandle(HANDLE hEnt); //eg for obtaining weapons from handles
+	virtual IClientEntity* GetClientEntity(int i); //index of entity, returns ptr to entity base
+	virtual IClientEntity* GetClientEntityFromHandle(HANDLE hEnt); //eg for obtaining weapons from handles
 	virtual int NumberOfEntities(bool bIncludeNonNetworkable);
 	virtual int GetHighestEntityIndex(void);
 	virtual void SetMaxEntities(int n);

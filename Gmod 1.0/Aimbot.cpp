@@ -4,17 +4,18 @@
 
 void aimbot::StartAim()
 {
+	int BestEntityFound = 0;
 	while (GetAsyncKeyState(VK_XBUTTON2))
 	{
-
+		BestEntityFound = GetBestEntity();
 		IClientEntity* pLocalPlayer = (IClientEntity*)CInterfaces::pEntityList->GetClientEntity(CInterfaces::pEngine->GetLocalPlayer());
-		IClientEntity* Entity = GetBestFOV();
-		
+		IClientEntity* pCurrentEntity = CInterfaces::pEntityList->GetClientEntity(BestEntityFound);
 
-		if (Entity != nullptr)
+
+		if (pCurrentEntity != nullptr)
 		{
-			GetEnemyBonePos(Entity);
-			AngleToAim = oMath.CalcAngle(LocalPlayerOrigin, vecHead);
+			GetEnemyBonePos(pCurrentEntity);
+			AngleToAim = oMath.CalcAngle(LocalPlayerOrg, vHeadPos);
 
 			*Pitch = AngleToAim.x;
 			*Yaw = AngleToAim.y;
@@ -22,41 +23,39 @@ void aimbot::StartAim()
 	}
 }
 
-/*IClientEntity* aimbot::GetBestTarget()
-{
-	CurrentDistance = 9999999.0f;
-	IClientEntity* pLocalPlayer = (IClientEntity*)CInterfaces::pEntityList->GetClientEntity(CInterfaces::pEngine->GetLocalPlayer());
-	IClientEntity* BestEntity = 0;
 
+int aimbot::GetBestEntity()
+{
+	MaxDiff = 9999999.0f;
+	IClientEntity* pLocalPlayer = (IClientEntity*)CInterfaces::pEntityList->GetClientEntity(CInterfaces::pEngine->GetLocalPlayer());
+	int BestEnt = 0;
 	for (int i = 0; i < CInterfaces::pEntityList->GetHighestEntityIndex(); i++)
 	{
-		IClientEntity* pEntity = (IClientEntity*)CInterfaces::pEntityList->GetClientEntity(i);
+		IClientEntity* pCurrentEnt = (IClientEntity*)CInterfaces::pEntityList->GetClientEntity(i);
 
-		if (pEntity == pLocalPlayer)
+		if (!CheckIfValid(pCurrentEnt))
 			continue;
 
-		if (!CheckIfValid(pEntity))
+		if (pCurrentEnt == pLocalPlayer)
 			continue;
 
-		LocalPlayerOrigin = *(Vec3*)(((uintptr_t)pLocalPlayer + 0x260));
-		CurrentEntityOrigin = *(Vec3*)(((uintptr_t)pEntity + 0x260));
+		LocalPlayerOrg = *(Vector*)(((uintptr_t)pLocalPlayer + 0x260));
+		CurrentEntOrg = *(Vector*)(((uintptr_t)pCurrentEnt + 0x260));
 
-		DistanceTo = oMath.GetDistanceBetween(LocalPlayerOrigin, CurrentEntityOrigin);
+		AngleToAim = oMath.CalcAngle(LocalPlayerOrg, CurrentEntOrg);
 
-		if (DistanceTo < CurrentDistance)
+		RealDifference = oMath.GetDistAngles(Yaw, Pitch, AngleToAim);
+
+		if (RealDifference < MaxDiff)
 		{
-			CurrentDistance = DistanceTo;
-
-			BestEntity = pEntity;
+			MaxDiff = RealDifference;
+			BestEnt = i;
 		}
 	}
-
-	return BestEntity;
+	return BestEnt;
 }
-*/
 
-
-IClientEntity* aimbot::GetBestFOV()
+/*IClientEntity* aimbot::GetBestFOV()
 {
 	MaxDiff = 9999999.0f;
 	IClientEntity* pLocalPlayer = (IClientEntity*)CInterfaces::pEntityList->GetClientEntity(CInterfaces::pEngine->GetLocalPlayer());
@@ -102,16 +101,16 @@ IClientEntity* aimbot::GetBestFOV()
 
 	return BestEntity;
 }
-
+*/
 void aimbot::GetEnemyBonePos(IClientEntity* Entity)
 {
 	Entity->SetupBones(bonePos, 128, 256, 0.0f);
 
 	matrix3x4_t Hitbox = bonePos[7];
 
-	vecHead.x = Hitbox[0][3];
-	vecHead.y = Hitbox[1][3];
-	vecHead.z = Hitbox[2][3];
+	vHeadPos.x = Hitbox[0][3];
+	vHeadPos.y = Hitbox[1][3];
+	vHeadPos.z = Hitbox[2][3];
 
 }
 
@@ -126,7 +125,7 @@ bool aimbot::CheckIfValid(IClientEntity* CurrentEntity)
 
 	int health = *(int*)(((uintptr_t)CurrentEntity + 0x90));
 
-	if (!health)
+	if (health < 1)
 		return false;
 
 	if (CurrentEntity->GetClientClass()->m_ClassID != 69)

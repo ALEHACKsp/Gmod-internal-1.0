@@ -3,27 +3,20 @@
 #include "Math.h"
 #include <iostream>
 
+#define PI 3.1415926535897
+
 
 class aimbot
 {
 public:
 	Math oMath;
-	float DistanceTo;
 
-	float YawDiff;
-	float PitchDiff;
-	float RealDiff;
+	float RealDifference, DistanceToEnt;
 	float MaxDiff = 9999999.0f;
 	
 	DWORD engine = (DWORD)GetModuleHandle("engine.dll");
 
-	Vector LocalPlayerOrigin;
-	Vector CurrentEntityOrigin;
-	Vector AngleToAim;
-	Vector EntBonePos;
-
-	Vector vecHead;
-	Vector vecEnemyOrg;
+	Vector LocalPlayerOrg, CurrentEntOrg, AngleToAim, CurrenEntBonePos, vHeadPos;
 
 	matrix3x4_t bonePos[128];
 	
@@ -31,8 +24,8 @@ public:
 	float* Yaw = (float*)(engine + 0x4E16E8);
 
 	void StartAim();
-	//IClientEntity* GetBestTarget();
-	IClientEntity* GetBestFOV();
+	int GetBestEntity();
+
 	void GetEnemyBonePos(IClientEntity* Entity);
 	bool CheckIfValid(IClientEntity* CurrentEntity);
 
