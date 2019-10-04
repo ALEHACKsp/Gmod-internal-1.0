@@ -4,6 +4,7 @@
 
 void aimbot::StartAim()
 {
+	int Health;
 	int BestEntityFound = 0;
 	while (GetAsyncKeyState(VK_XBUTTON2))
 	{
@@ -11,11 +12,11 @@ void aimbot::StartAim()
 		IClientEntity* pLocalPlayer = (IClientEntity*)CInterfaces::pEntityList->GetClientEntity(CInterfaces::pEngine->GetLocalPlayer());
 		IClientEntity* pCurrentEntity = CInterfaces::pEntityList->GetClientEntity(BestEntityFound);
 
-
 		if (pCurrentEntity != nullptr)
 		{
 			GetEnemyBonePos(pCurrentEntity);
 			AngleToAim = oMath.CalcAngle(LocalPlayerOrg, vHeadPos);
+			oMath.NormalizeAngles(&AngleToAim);
 
 			*Pitch = AngleToAim.x;
 			*Yaw = AngleToAim.y;
@@ -44,7 +45,13 @@ int aimbot::GetBestEntity()
 
 		AngleToAim = oMath.CalcAngle(LocalPlayerOrg, CurrentEntOrg);
 
+		oMath.NormalizeAngles(&AngleToAim);
+
 		RealDifference = oMath.GetDistAngles(Yaw, Pitch, AngleToAim);
+
+		if (RealDifference > 10.f)
+			continue;
+
 
 		if (RealDifference < MaxDiff)
 		{
@@ -104,7 +111,7 @@ int aimbot::GetBestEntity()
 */
 void aimbot::GetEnemyBonePos(IClientEntity* Entity)
 {
-	Entity->SetupBones(bonePos, 128, 256, 0.0f);
+	Entity->SetupBones(bonePos, 128, 0x00000100, 0.0f);
 
 	matrix3x4_t Hitbox = bonePos[7];
 
