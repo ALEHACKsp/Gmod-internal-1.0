@@ -12,5 +12,4 @@ public:
 
 	float GetDistAngles(float* AngleYaw, float* AnglePitch, Vector AnglesToAim);
 
-	void NormalizeAngles(Vector* Angles);
 };

@@ -1,7 +1,6 @@
 #include "Aimbot.h"
 
 
-
 void aimbot::StartAim()
 {
 	int Health;
@@ -16,7 +15,6 @@ void aimbot::StartAim()
 		{
 			GetEnemyBonePos(pCurrentEntity);
 			AngleToAim = oMath.CalcAngle(LocalPlayerOrg, vHeadPos);
-			oMath.NormalizeAngles(&AngleToAim);
 
 			*Pitch = AngleToAim.x;
 			*Yaw = AngleToAim.y;
@@ -45,13 +43,10 @@ int aimbot::GetBestEntity()
 
 		AngleToAim = oMath.CalcAngle(LocalPlayerOrg, CurrentEntOrg);
 
-		oMath.NormalizeAngles(&AngleToAim);
-
 		RealDifference = oMath.GetDistAngles(Yaw, Pitch, AngleToAim);
 
 		if (RealDifference > 10.f)
 			continue;
-
 
 		if (RealDifference < MaxDiff)
 		{

@@ -19,34 +19,40 @@
     <Filter Include="Source Files\Features">
       <UniqueIdentifier>{730912dc-4165-43cb-b7f6-297c401f3d78}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\SDK Stuff">
+      <UniqueIdentifier>{6a522dae-3d95-453e-ae4b-a1258edb60a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MathStuff">
+      <UniqueIdentifier>{59309035-ba62-4839-b699-8f4dacd2789f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SDK Source Files">
+      <UniqueIdentifier>{77fdb1d7-b66d-49d3-88e0-4e268139cb15}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SDK Stuff.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Interface.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Aimbot.h">
       <Filter>Header Files\Features</Filter>
     </ClInclude>
+    <ClInclude Include="Interface.h">
+      <Filter>Header Files\SDK Stuff</Filter>
+    </ClInclude>
     <ClInclude Include="InterfaceVT.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\SDK Stuff</Filter>
+    </ClInclude>
+    <ClInclude Include="SDK Stuff.h">
+      <Filter>Header Files\SDK Stuff</Filter>
     </ClInclude>
     <ClInclude Include="Math.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\MathStuff</Filter>
     </ClInclude>
     <ClInclude Include="Matrix.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\MathStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>Header Files\MathStuff</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Interface.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -55,6 +61,9 @@
     </ClCompile>
     <ClCompile Include="Math.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface.cpp">
+      <Filter>Source Files\SDK Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

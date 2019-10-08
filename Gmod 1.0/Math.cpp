@@ -22,11 +22,20 @@ Vector Math::CalcAngle(Vector LocalPlayerOrigin, Vector EnemyPlayerOrigin)
 
 	Vector AngleToAim;
 
-	AngleToAim.y = atan2(Difference.y, Difference.x) * 180 / 3.14;
+	AngleToAim.y = atan2f(Difference.y, Difference.x) * 180 / 3.14;
 
-	AngleToAim.x = -asin(Difference.z / magnitude) * 180 / 3.14;
+	AngleToAim.x = -asinf(Difference.z / magnitude) * 180 / 3.14;
 
 
+	if (AngleToAim.x > 89)
+		AngleToAim.x = 89;
+
+	if (AngleToAim.x < -89)
+		AngleToAim.x = -89;
+
+	while (AngleToAim.y > 180) { AngleToAim.y -= 360; }
+
+	while (AngleToAim.y < -180) { AngleToAim.y += 360; }
 
 	
 	AngleToAim.z = 0.0f;
@@ -44,19 +53,4 @@ float Math::GetDistAngles(float* AngleYaw, float* AnglePitch, Vector AnglesToAim
 
 
 	return (float)dist;
-}
-
-void Math::NormalizeAngles(Vector* Angles)
-{
-	if (Angles->x > 89)
-		Angles->x = 89;
-
-	if (Angles->x < -89)
-		Angles->x = -89;
-
-	while (Angles->y > 180) { Angles->y -= 360; }
-
-	while (Angles->y < -180) { Angles->y += 360; }
-
-
 }
