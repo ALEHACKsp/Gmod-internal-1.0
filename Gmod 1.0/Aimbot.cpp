@@ -5,6 +5,7 @@ void aimbot::StartAim()
 {
 	int Health;
 	int BestEntityFound = 0;
+	Vector Buns;
 	while (GetAsyncKeyState(VK_XBUTTON2))
 	{
 		BestEntityFound = GetBestEntity();
@@ -13,6 +14,7 @@ void aimbot::StartAim()
 
 		if (pCurrentEntity != nullptr)
 		{
+			bool test = GetHitBox(pCurrentEntity, Buns, boneArray[12]);
 			GetEnemyBonePos(pCurrentEntity);
 			AngleToAim = oMath.CalcAngle(LocalPlayerOrg, vHeadPos);
 
@@ -21,7 +23,6 @@ void aimbot::StartAim()
 		}
 	}
 }
-
 
 int aimbot::GetBestEntity()
 {
@@ -41,12 +42,7 @@ int aimbot::GetBestEntity()
 		LocalPlayerOrg = *(Vector*)(((uintptr_t)pLocalPlayer + 0x260));
 		CurrentEntOrg = *(Vector*)(((uintptr_t)pCurrentEnt + 0x260));
 
-		AngleToAim = oMath.CalcAngle(LocalPlayerOrg, CurrentEntOrg);
-
-		RealDifference = oMath.GetDistAngles(Yaw, Pitch, AngleToAim);
-
-		if (RealDifference > 10.f)
-			continue;
+		RealDifference = oMath.GetDistanceBetween(LocalPlayerOrg, CurrentEntOrg);
 
 		if (RealDifference < MaxDiff)
 		{
@@ -57,58 +53,12 @@ int aimbot::GetBestEntity()
 	return BestEnt;
 }
 
-/*IClientEntity* aimbot::GetBestFOV()
-{
-	MaxDiff = 9999999.0f;
-	IClientEntity* pLocalPlayer = (IClientEntity*)CInterfaces::pEntityList->GetClientEntity(CInterfaces::pEngine->GetLocalPlayer());
-	IClientEntity* BestEntity = 0;
 
-	for (int i = 0; i < CInterfaces::pEntityList->GetHighestEntityIndex(); i++)
-	{
-		IClientEntity* pEntity = (IClientEntity*)CInterfaces::pEntityList->GetClientEntity(i);
-
-		if (pEntity == pLocalPlayer)
-			continue;
-
-		if (!CheckIfValid(pEntity))
-			continue;
-
-		LocalPlayerOrigin = *(Vector*)(((uintptr_t)pLocalPlayer + 0x260));
-		CurrentEntityOrigin = *(Vector*)(((uintptr_t)pEntity + 0x260));
-
-
-		AngleToAim = oMath.CalcAngle(LocalPlayerOrigin, CurrentEntityOrigin);
-
-		YawDiff = (*Yaw - AngleToAim.y);
-		PitchDiff = (*Pitch - AngleToAim.x);
-
-		YawDiff = fabsf(YawDiff);
-		PitchDiff = fabsf(PitchDiff);
-
-		if (YawDiff > 10.0f || PitchDiff > 10.0f)
-			continue;
-
-		DistanceTo = oMath.GetDistanceBetween(LocalPlayerOrigin, CurrentEntityOrigin);
-
-		RealDiff = sin((YawDiff * 3.14 / 180)) * DistanceTo;
-
-
-		if (RealDiff < MaxDiff)
-		{
-			MaxDiff = RealDiff;
-
-			BestEntity = pEntity;
-		}
-	}
-
-	return BestEntity;
-}
-*/
 void aimbot::GetEnemyBonePos(IClientEntity* Entity)
 {
 	Entity->SetupBones(bonePos, 128, 0x00000100, 0.0f);
 
-	matrix3x4_t Hitbox = bonePos[7];
+	matrix3x4_t Hitbox = bonePos[6];
 
 	vHeadPos.x = Hitbox[0][3];
 	vHeadPos.y = Hitbox[1][3];
@@ -135,3 +85,40 @@ bool aimbot::CheckIfValid(IClientEntity* CurrentEntity)
 
 	return true;
 }
+
+bool aimbot::GetHitBox(IClientEntity* Entity, Vector vecHitbox, const char* cBoneName)
+{
+
+	matrix3x4_t pMatrix[128];
+
+	Entity->SetupBones(pMatrix, 128, 0x00000100, 0.0f);
+
+	auto pStudioHdr = CInterfaces::pModelInfo->GetStudioModel(Entity->GetModel());
+
+	if (!pStudioHdr)
+		return false;
+
+	auto pSet = pStudioHdr->pHitboxSet(0);
+
+	if (pSet)
+	{
+		for (auto i = 0; i < pSet->numhitboxes; i++)
+		{
+
+			auto pHitBox = pSet->pHitbox(i);
+
+			if (pHitBox)
+			{
+				auto cHitBox = pStudioHdr->pBone(pHitBox->bone)->pszName();
+				Vector vecMin, vecMax;
+
+				std::cout << "Current pBone Name: " << cHitBox << "\n";
+				std::cout << "pHitboxBone: " << pHitBox->bone << "\n";
+				return true;
+			}
+		}
+	}
+	return true;
+}
+
+

@@ -12,6 +12,7 @@ private:
 	{
 		return reinterpret_cast<CreateInterfaceFn>(GetProcAddress(module, "CreateInterface"));
 	}
+
 	template<typename T>
 	T GetInterface(CreateInterfaceFn fn, const char* szInterfaceVersion)
 	{
@@ -32,4 +33,5 @@ struct CInterfaces
 {
 	static IClientEntityList* pEntityList;
 	static IEngineClient* pEngine;
+	static IVModelInfo* pModelInfo;
 };

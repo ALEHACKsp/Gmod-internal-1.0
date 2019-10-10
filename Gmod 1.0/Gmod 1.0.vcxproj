@@ -128,6 +128,8 @@
     <ClInclude Include="InterfaceVT.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Matrix.h" />
+    <ClInclude Include="ModelInfo.h" />
+    <ClInclude Include="QAngle.h" />
     <ClInclude Include="SDK Stuff.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>

@@ -51,6 +51,12 @@
     <ClInclude Include="Vector.h">
       <Filter>Header Files\MathStuff</Filter>
     </ClInclude>
+    <ClInclude Include="ModelInfo.h">
+      <Filter>Header Files\SDK Stuff</Filter>
+    </ClInclude>
+    <ClInclude Include="QAngle.h">
+      <Filter>Header Files\MathStuff</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">

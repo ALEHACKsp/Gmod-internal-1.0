@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include "InterfaceVT.h"
 #include "Matrix.h"
+#include "ModelInfo.h"
 
 class IClientNetworkable;
 
@@ -150,7 +151,7 @@ public:
 	virtual bool			    UsesFullFrameBufferTexture() = 0;
 	virtual unsigned short	    GetShadowHandle() const = 0;
 	virtual unsigned short& RenderHandle() = 0;
-	virtual const void* GetModel() const = 0;
+	virtual const model_t* GetModel() const = 0;
 	virtual int				    DrawModel(int flags) = 0;
 	virtual int				    GetBody() = 0;
 	virtual void			    ComputeFxBlend() = 0;
@@ -222,6 +223,12 @@ class IClientEntity : public IClientUnknown, public IClientRenderable, public IC
 {
 public:
 	virtual ~IClientEntity();
+
+};
+
+class IVModelClient : public IVModelInfo
+{
+public:
 
 };
 
