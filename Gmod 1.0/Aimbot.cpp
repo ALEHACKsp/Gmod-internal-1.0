@@ -88,37 +88,40 @@ bool aimbot::CheckIfValid(IClientEntity* CurrentEntity)
 
 bool aimbot::GetHitBox(IClientEntity* Entity, Vector vecHitbox, const char* cBoneName)
 {
-
+	int aimbone;
 	matrix3x4_t pMatrix[128];
 
 	Entity->SetupBones(pMatrix, 128, 0x00000100, 0.0f);
 
-	auto pStudioHdr = CInterfaces::pModelInfo->GetStudioModel(Entity->GetModel());
+	auto pStudioModel = CInterfaces::pModelInfo->GetStudioModel(Entity->GetModel());
 
-	if (!pStudioHdr)
+	if (!pStudioModel)
 		return false;
 
-	auto pSet = pStudioHdr->pHitboxSet(0);
+	auto set = pStudioModel->pHitboxSet(0);
 
-	if (pSet)
+	if (!set)
+		return false;
+
+	for (int c = 0; c < set->numhitboxes; c++)
 	{
-		for (auto i = 0; i < pSet->numhitboxes; i++)
+		auto pHitBox = set->pHitbox(c);
+
+		if (!pHitBox)
+			return false;
+
+		auto cHitBoxName = pStudioModel->pBone(pHitBox->bone)->pszName();
+
+
+		if (cBoneName && strstr(cHitBoxName, cBoneName))
 		{
+			aimbone = pHitBox->bone;
 
-			auto pHitBox = pSet->pHitbox(i);
-
-			if (pHitBox)
-			{
-				auto cHitBox = pStudioHdr->pBone(pHitBox->bone)->pszName();
-				Vector vecMin, vecMax;
-
-				std::cout << "Current pBone Name: " << cHitBox << "\n";
-				std::cout << "pHitboxBone: " << pHitBox->bone << "\n";
-				return true;
-			}
-		}
+			std::cout << "CBone name matches: " << cHitBoxName;
+			std::cout << "Bone ID: " << aimbone << "\n";
+		}	
 	}
+
 	return true;
 }
-
 
