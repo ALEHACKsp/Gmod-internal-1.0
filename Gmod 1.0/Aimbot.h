@@ -27,10 +27,10 @@ public:
 	void StartAim();
 	int GetBestEntity();
 
-	void GetEnemyBonePos(IClientEntity* Entity);
+	void GetEnemyBonePos(IClientEntity* Entity, int BestBoneID);
 	bool CheckIfValid(IClientEntity* CurrentEntity);
 	
-	bool GetHitBox(IClientEntity* Entity, Vector vecHitbox, const char* cBoneName);
+	int GetHitBox(IClientEntity* Entity, const char* cBoneName);
 
 
 	const char* boneArray[19] ={

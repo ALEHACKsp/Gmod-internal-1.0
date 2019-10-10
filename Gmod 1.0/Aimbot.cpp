@@ -14,8 +14,8 @@ void aimbot::StartAim()
 
 		if (pCurrentEntity != nullptr)
 		{
-			bool test = GetHitBox(pCurrentEntity, Buns, boneArray[12]);
-			GetEnemyBonePos(pCurrentEntity);
+			
+			GetEnemyBonePos(pCurrentEntity, GetHitBox(pCurrentEntity, boneArray[12]));
 			AngleToAim = oMath.CalcAngle(LocalPlayerOrg, vHeadPos);
 
 			*Pitch = AngleToAim.x;
@@ -54,11 +54,11 @@ int aimbot::GetBestEntity()
 }
 
 
-void aimbot::GetEnemyBonePos(IClientEntity* Entity)
+void aimbot::GetEnemyBonePos(IClientEntity* Entity, int BestBoneFound)
 {
 	Entity->SetupBones(bonePos, 128, 0x00000100, 0.0f);
 
-	matrix3x4_t Hitbox = bonePos[6];
+	matrix3x4_t Hitbox = bonePos[BestBoneFound];
 
 	vHeadPos.x = Hitbox[0][3];
 	vHeadPos.y = Hitbox[1][3];
@@ -86,7 +86,7 @@ bool aimbot::CheckIfValid(IClientEntity* CurrentEntity)
 	return true;
 }
 
-bool aimbot::GetHitBox(IClientEntity* Entity, Vector vecHitbox, const char* cBoneName)
+int aimbot::GetHitBox(IClientEntity* Entity, const char* cBoneName)
 {
 	int aimbone;
 	matrix3x4_t pMatrix[128];
@@ -112,16 +112,13 @@ bool aimbot::GetHitBox(IClientEntity* Entity, Vector vecHitbox, const char* cBon
 
 		auto cHitBoxName = pStudioModel->pBone(pHitBox->bone)->pszName();
 
-
+		// use strstr because its fastest algorithim for comparing strings !!!!!!! niggers
 		if (cBoneName && strstr(cHitBoxName, cBoneName))
 		{
 			aimbone = pHitBox->bone;
-
-			std::cout << "CBone name matches: " << cHitBoxName;
-			std::cout << "Bone ID: " << aimbone << "\n";
 		}	
 	}
 
-	return true;
+	return aimbone;
 }
 
